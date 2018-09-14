@@ -33,13 +33,13 @@ __global__ void image_blur_kernel(unsigned char* input, unsigned char* output, i
 	const int xIndex = blockIdx.x * blockDim.x + threadIdx.x;
 	const int yIndex = blockIdx.y * blockDim.y + threadIdx.y;
 
-  // CHANNEL ACCUMULATORS
-  float blueSum = 0.0;
-  float greenSum = 0.0;
-  float redSum = 0.0;
+  	// CHANNEL ACCUMULATORS
+  	float blueSum = 0.0;
+  	float greenSum = 0.0;
+  	float redSum = 0.0;
 
-  // HANDLER
-  float value;
+  	// HANDLER
+  	float value;
 
 	// ONLY VALID THREADS IN MEMORY
 	if ((xIndex < width) && (yIndex < height)){
@@ -78,13 +78,13 @@ __global__ void image_blur_kernel(unsigned char* input, unsigned char* output, i
 // FUNCTION TO SUMMON THE KERNEL
 void image_blur(const cv::Mat& input, cv::Mat& output){
 
-  // FILTER SIZE AND BOUNDARY DEFINITION
-  const int filterSize = g_FILTER_SIZE;
-  const int filterBoundary = floor(g_FILTER_SIZE/2);
+  	// FILTER SIZE AND BOUNDARY DEFINITION
+  	const int filterSize = g_FILTER_SIZE;
+  	const int filterBoundary = floor(g_FILTER_SIZE/2);
 
-  // INPUT.STEP GETS THE NUMBER OF BYTES FOR EACH ROW
+  	// INPUT.STEP GETS THE NUMBER OF BYTES FOR EACH ROW
 	std::cout << "Input image step: " << input.step << " rows: " << input.rows << " cols: " << input.cols << std::endl;
-  // CALCULATE TOTAL NUMBER OF BYTES OF INPUT AND OUTPUT IMAGE
+  	// CALCULATE TOTAL NUMBER OF BYTES OF INPUT AND OUTPUT IMAGE
 	// STEP = COLS * NUMBER OF COLORS
 	size_t colorBytes = input.step * input.rows;
 	size_t blurredBytes = output.step * output.rows;
@@ -107,11 +107,11 @@ void image_blur(const cv::Mat& input, cv::Mat& output){
 
 
 	// LAUNCH THE KERNEL
-  auto start_cpu = std::chrono::high_resolution_clock::now();
+  	auto start_cpu = std::chrono::high_resolution_clock::now();
 	image_blur_kernel <<<grid, block >>>(d_input, d_output, input.cols, input.rows, static_cast<int>(input.step), filterBoundary, filterSize);
-  auto end_cpu =  std::chrono::high_resolution_clock::now();
-  std::chrono::duration<float, std::milli> duration_ms = end_cpu - start_cpu;
-  printf("Applying filter to image elapsed %f ms\n", duration_ms.count());
+  	auto end_cpu =  std::chrono::high_resolution_clock::now();
+  	std::chrono::duration<float, std::milli> duration_ms = end_cpu - start_cpu;
+  	printf("Applying filter to image elapsed %f ms\n", duration_ms.count());
 
 	// SYNCH AND CHECK FOR ERRORS
 	SAFE_CALL(cudaDeviceSynchronize(), "Kernel Launch Failed");
@@ -125,9 +125,9 @@ void image_blur(const cv::Mat& input, cv::Mat& output){
 }
 
 int main(int argc, char *argv[]){
-  // GET THE IMAGE PATH
+  	// GET THE IMAGE PATH
 	std::string imagePath;
-  (argc < 2) ? imagePath = "image.jpg" : imagePath = argv[1];
+  	(argc < 2) ? imagePath = "image.jpg" : imagePath = argv[1];
 
 	// READ INPUT IMAGE FROM DISK
 	cv::Mat input = cv::imread(imagePath, CV_LOAD_IMAGE_COLOR);
@@ -143,7 +143,7 @@ int main(int argc, char *argv[]){
 
 	// CALL THE WRAPPER FUNCTION
 	image_blur(input, output);
-  cv::imwrite("output.jpg", output);
+  	cv::imwrite("output.jpg", output);
 
 	// UNCOMMENT FOR REVIEW
 	//Allow the windows to resize
