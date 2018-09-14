@@ -79,7 +79,7 @@ int main(int argc, char *argv[]){
 
   // GET THE IMAGE PATH
 	std::string imagePath;
-  (argc < 2) ? imagePath = "image.jpg" : imagePath = argv[1];
+  	(argc < 2) ? imagePath = "image.jpg" : imagePath = argv[1];
 
 	// READ INPUT IMAGE FROM DISK
 	cv::Mat input = cv::imread(imagePath, CV_LOAD_IMAGE_COLOR);
@@ -93,8 +93,8 @@ int main(int argc, char *argv[]){
 
 	// CREATE OUTPUT IMAGE
 	cv::Mat output = input.clone();
-  image_blur(input, output);
-  cv::imwrite("output_host_threads.jpg", output);
+  	image_blur(input, output);
+  	cv::imwrite("output_host_threads.jpg", output);
 	
 	// UNCOMMENT FOR REVIEW
 	//Allow the windows to resize
