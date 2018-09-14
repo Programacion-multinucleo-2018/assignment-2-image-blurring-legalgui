@@ -24,19 +24,21 @@ float filter[g_FILTER_SIZE][g_FILTER_SIZE] = {
 // colorWidthStep - number of color bytes (cols * colors)
 // grayWidthStep - number of gray bytes
 void image_blur_host(const cv::Mat& input, cv::Mat& output, const int filterBoundary, const int filterSize){
-
+	
+  int i, j, k, l;
   #pragma omp parallel for private(i, j, k, l) shared(input, output)
   // FOR ALL IMAGE
-  for(int i = 0; i < input.rows; i++) {
-    for(int j = 0; j < input.cols; j++) {
+  for(i = 0; i < input.rows; i++) {
+    for(j = 0; j < input.cols; j++) {
       // ACCUMULATORS
       float blueSum = 0.0;
       float greenSum = 0.0;
       float redSum = 0.0;
       float value = 0;
+	int k_f, l_f;
       // FOR FILTER BOUNDARY
-      for(int k = -filterBoundary, k_f = 0; (k <= filterBoundary) && (k_f <= filterSize); k++, k_f++) {
-        for(int l = -filterBoundary, l_f = 0; (l <= filterBoundary) && (l_f <= filterSize); l++, l_f++) {
+      for(k = -filterBoundary, k_f = 0; (k <= filterBoundary) && (k_f <= filterSize); k++, k_f++) {
+        for(l = -filterBoundary, l_f = 0; (l <= filterBoundary) && (l_f <= filterSize); l++, l_f++) {
 
           // GET ID FOR MATRIX
           int idX = i + k;
