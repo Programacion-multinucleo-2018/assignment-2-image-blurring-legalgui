@@ -145,6 +145,7 @@ int main(int argc, char *argv[]){
 	image_blur(input, output);
   cv::imwrite("output.jpg", output);
 
+	// UNCOMMENT FOR REVIEW
 	//Allow the windows to resize
 	//namedWindow("Input", cv::WINDOW_NORMAL);
 	//namedWindow("Output", cv::WINDOW_NORMAL);
