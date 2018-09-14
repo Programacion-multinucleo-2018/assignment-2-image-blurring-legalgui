@@ -93,5 +93,17 @@ int main(int argc, char *argv[]){
   image_blur(input, output);
   cv::imwrite("output_host.jpg", output);
 
+	// UNCOMMENT FOR REVIEW
+	//Allow the windows to resize
+	//namedWindow("Input", cv::WINDOW_NORMAL);
+	//namedWindow("Output", cv::WINDOW_NORMAL);
+
+	//Show the input and output
+	//imshow("Input", input);
+	//imshow("Output", output);
+
+	//Wait for key press
+	//cv::waitKey();
+
 	return 0;
 }
